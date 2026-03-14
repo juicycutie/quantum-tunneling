@@ -1,0 +1,244 @@
+/* Root Variables - Palet Warna & Styling */
+:root {
+    --bg-color: #f0f4f8;
+    --card-bg: #ffffff;
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+    --primary: #3498db;
+    --primary-hover: #2980b9;
+    --secondary: #95a5a6;
+    --accent-t: #2ecc71; /* Warna hijau untuk Transmisi */
+    --accent-r: #e74c3c; /* Warna merah untuk Refleksi */
+    --border-color: #e1e8ed;
+}
+
+/* Reset CSS Dasar */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* Tata Letak Utama Grid / Flexbox */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 1.5rem 2rem;
+}
+
+.app-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+    font-size: 2.2rem;
+    color: var(--primary);
+}
+
+.app-header p {
+    color: var(--text-muted);
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    gap: 2rem;
+    min-height: 0;
+}
+
+/* KANVAS: Sisi Kiri (70%) */
+.canvas-section {
+    flex: 7;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    padding: 1rem;
+}
+
+#plot-container {
+    flex: 1;
+    width: 100%;
+    min-height: 400px; /* Jaga agar tinggi grafik stabil */
+}
+
+.canvas-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* KONTROL: Sisi Kanan (30%) */
+.control-section {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow-y: auto; /* Agar tidak meluap di layar kecil */
+    padding-right: 5px;
+}
+
+.control-card {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.control-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+/* Styling Input & Slider */
+.control-group {
+    margin-bottom: 1.5rem;
+}
+
+.control-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Membuat Slider lebih tebal/responsif */
+input[type="range"] {
+    flex: 1;
+    cursor: pointer;
+    accent-color: var(--primary);
+    height: 6px;
+}
+
+input[type="number"] {
+    width: 75px;
+    padding: 0.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* Styling Output Analitik */
+.output-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1.2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+#val-transmission {
+    color: var(--accent-t);
+}
+#val-reflection {
+    color: var(--accent-r);
+}
+
+/* Progress Bar Visual (Stack) */
+.prob-bar-container {
+    width: 100%;
+    height: 24px;
+    background-color: var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prob-bar {
+    height: 100%;
+    transition: width 0.4s ease-out; /* Transisi smooth saat slider digeser */
+}
+
+/* Info Box / Tooltip Area */
+.info-box {
+    background-color: #e8f4f8;
+    padding: 1rem 1.2rem;
+    border-left: 5px solid var(--primary);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #34495e;
+}
+
+/* Button Global Styles */
+.btn {
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        transform 0.1s;
+    font-weight: 500;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+/* Media Query untuk Responsivitas Layar Kecil (Mobile / Tablet) */
+@media (max-width: 960px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .app-container {
+        height: auto;
+        padding: 1rem;
+    }
+
+    #plot-container {
+        min-height: 450px;
+    }
+
+    .control-section {
+        overflow-y: visible;
+    }
+}

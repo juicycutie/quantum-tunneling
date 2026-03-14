@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quantum Tunneling Lab</title>
+        <script>
+            (function () {
+                const key = "qt-theme";
+                const saved = localStorage.getItem(key);
+                const theme = saved || "light";
+                document.documentElement.dataset.theme = theme;
+            })();
+        </script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/theme.css') }}"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body class="min-h-screen bg-slate-950 text-slate-100">
+        <div class="relative overflow-hidden">
+            <div
+                class="pointer-events-none absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-cyan-500/20 blur-3xl"
+            ></div>
+            <div
+                class="pointer-events-none absolute bottom-0 right-0 h-[28rem] w-[28rem] translate-x-1/3 translate-y-1/3 rounded-full bg-indigo-500/20 blur-3xl"
+            ></div>
+
+            <header class="mx-auto max-w-6xl px-6 pt-10">
+                <nav class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="h-10 w-10 rounded-xl bg-gradient-to-br from-cyan-400 to-indigo-500"
+                        ></div>
+                        <span
+                            class="text-lg font-semibold tracking-wide"
+                            style="font-family: 'Space Grotesk', sans-serif"
+                            >Quantum Tunneling Lab</span
+                        >
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-semibold text-slate-400"
+                                >Terang</span
+                            >
+                            <label class="relative inline-flex cursor-pointer items-center">
+                                <input
+                                    type="checkbox"
+                                    class="sr-only"
+                                    data-theme-toggle
+                                    aria-label="Toggle tema"
+                                />
+                                <span class="theme-toggle-track">
+                                    <span class="theme-toggle-dot"></span>
+                                </span>
+                            </label>
+                            <span class="text-xs font-semibold text-slate-400"
+                                >Gelap</span
+                            >
+                        </div>
+                        <a
+                            href="/simulate"
+                            class="rounded-full border border-cyan-400/50 px-5 py-2 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300 hover:text-white"
+                            >Mulai Simulasi</a
+                        >
+                    </div>
+                </nav>
+            </header>
+
+            <main class="mx-auto max-w-6xl px-6 pb-20 pt-16">
+                <section class="grid gap-10 lg:grid-cols-2 lg:items-center">
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.3em] text-cyan-300">
+                            Fisika Kuantum Interaktif
+                        </p>
+                        <h1
+                            class="mt-4 text-4xl font-semibold leading-tight text-white sm:text-5xl"
+                            style="font-family: 'Space Grotesk', sans-serif"
+                        >
+                            Jelajahi fenomena quantum tunneling dengan visualisasi
+                            real-time.
+                        </h1>
+                        <p class="mt-6 text-lg text-slate-300">
+                            Quantum tunneling adalah peristiwa di mana partikel dapat
+                            menembus penghalang energi meski secara klasik mustahil.
+                            Simulasi ini membantu Anda memahami bagaimana probabilitas,
+                            energi, dan lebar penghalang membentuk perilaku gelombang.
+                        </p>
+                        <div class="mt-8 flex flex-wrap items-center gap-4">
+                            <a
+                                href="/simulate"
+                                class="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+                                >Masuk ke Simulasi</a
+                            >
+                            <a
+                                href="#fitur"
+                                class="rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:text-white"
+                                >Lihat Fitur</a
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class="relative rounded-3xl border border-slate-800 bg-slate-900/60 p-6 shadow-2xl"
+                    >
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-slate-400">Visual Intuisi</p>
+                            <span
+                                class="rounded-full bg-emerald-400/10 px-3 py-1 text-xs text-emerald-300"
+                                >Live</span
+                            >
+                        </div>
+                        <div
+                            class="mt-5 overflow-hidden rounded-2xl border border-slate-800"
+                        >
+                            <iframe
+                                title="Preview Simulasi Quantum Tunneling"
+                                src="/simulate?embed=1"
+                                class="h-[180px] w-full pointer-events-none"
+                                loading="lazy"
+                                scrolling="no"
+                                frameborder="0"
+                            ></iframe>
+                        </div>
+                        <div class="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-300">
+                            <div class="rounded-xl border border-slate-800 bg-slate-900 px-3 py-2">
+                                <p class="text-xs uppercase text-slate-500">
+                                    Energi Partikel (E)
+                                </p>
+                                <p class="mt-1 text-base font-semibold text-white">
+                                    <span id="preview-e">1.0</span> eV
+                                </p>
+                            </div>
+                            <div class="rounded-xl border border-slate-800 bg-slate-900 px-3 py-2">
+                                <p class="text-xs uppercase text-slate-500">
+                                    Tinggi Penghalang (V0)
+                                </p>
+                                <p class="mt-1 text-base font-semibold text-white">
+                                    <span id="preview-v0">2.0</span> eV
+                                </p>
+                            </div>
+                            <div class="rounded-xl border border-slate-800 bg-slate-900 px-3 py-2">
+                                <p class="text-xs uppercase text-slate-500">
+                                    Lebar Penghalang (a)
+                                </p>
+                                <p class="mt-1 text-base font-semibold text-white">
+                                    <span id="preview-l">1.0</span> nm
+                                </p>
+                            </div>
+                            <div class="rounded-xl border border-slate-800 bg-slate-900 px-3 py-2">
+                                <p class="text-xs uppercase text-slate-500">
+                                    Peluang Tunneling
+                                </p>
+                                <p class="mt-1 text-base font-semibold text-emerald-300">
+                                    <span id="preview-t">0.00</span>
+                                </p>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-sm text-slate-300">
+                            Pratinjau ini menunjukkan gelombang partikel yang
+                            berinteraksi dengan penghalang potensial. Interaksi penuh
+                            tersedia pada halaman simulasi.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="fitur" class="mt-16">
+                    <div class="flex flex-col gap-3">
+                        <h2
+                            class="text-2xl font-semibold text-white"
+                            style="font-family: 'Space Grotesk', sans-serif"
+                        >
+                            Fitur Utama Simulasi
+                        </h2>
+                        <p class="text-slate-300">
+                            Kontrol interaktif dan visualisasi bergerak dirancang untuk
+                            memberikan pengalaman eksploratif tanpa hambatan.
+                        </p>
+                    </div>
+                    <div class="mt-8 grid gap-6 md:grid-cols-3">
+                        <div
+                            class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6"
+                        >
+                            <h3 class="text-lg font-semibold text-white">
+                                Kontrol Parameter
+                            </h3>
+                            <p class="mt-3 text-sm text-slate-300">
+                                Atur energi, tinggi penghalang, dan lebar untuk melihat
+                                perubahan probabilitas secara instan.
+                            </p>
+                        </div>
+                        <div
+                            class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6"
+                        >
+                            <h3 class="text-lg font-semibold text-white">
+                                Animasi Gelombang
+                            </h3>
+                            <p class="mt-3 text-sm text-slate-300">
+                                Gelombang berjalan menunjukkan fase dan amplitudo
+                                partikel saat berinteraksi dengan penghalang.
+                            </p>
+                        </div>
+                        <div
+                            class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6"
+                        >
+                            <h3 class="text-lg font-semibold text-white">
+                                Zoom &amp; Pan
+                            </h3>
+                            <p class="mt-3 text-sm text-slate-300">
+                                Perbesar detail, geser kanvas, dan tetap lihat data penuh
+                                di seluruh rentang ruang.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mt-16">
+                    <div
+                        class="rounded-3xl border border-slate-800 bg-gradient-to-r from-cyan-500/20 via-indigo-500/20 to-purple-500/20 p-8"
+                    >
+                        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                            <div>
+                                <h2
+                                    class="text-2xl font-semibold text-white"
+                                    style="font-family: 'Space Grotesk', sans-serif"
+                                >
+                                    Siap untuk bereksperimen?
+                                </h2>
+                                <p class="mt-2 text-slate-300">
+                                    Masuk ke simulasi dan eksplorasi probabilitas
+                                    tunneling secara langsung.
+                                </p>
+                            </div>
+                            <a
+                                href="/simulate"
+                                class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+                                >Buka Simulasi</a
+                            >
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <script>
+            const previewData = { E: 1.0, V0: 2.0, L: 1.0 };
+
+            function updatePreviewValues(data) {
+                const eEl = document.getElementById("preview-e");
+                const v0El = document.getElementById("preview-v0");
+                const lEl = document.getElementById("preview-l");
+                const tEl = document.getElementById("preview-t");
+
+                if (eEl) eEl.textContent = data.E.toFixed(1);
+                if (v0El) v0El.textContent = data.V0.toFixed(1);
+                if (lEl) lEl.textContent = data.L.toFixed(1);
+                if (tEl) tEl.textContent = data.T.toFixed(2);
+            }
+
+            fetch("/api/simulate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(previewData),
+            })
+                .then((response) => response.json())
+                .then((data) => updatePreviewValues(data))
+                .catch(() => updatePreviewValues({ ...previewData, T: 0 }));
+        </script>
+        <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    </body>
+</html>
